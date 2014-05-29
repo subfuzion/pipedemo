@@ -20,5 +20,7 @@ pipe.on('close', function(hadError) {
 	console.log('[publisher] pipe closed (%s)', hadError ? 'error' : 'success');
 });
 
+// remember, you might want to manually throttle data when writing
+// see: http://nodejs.org/api/net.html#net_socket_buffersize
 pipe.write(JSON.stringify(json));
 pipe.write(EOF);

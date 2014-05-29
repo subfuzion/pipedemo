@@ -1,6 +1,6 @@
 var net = require('net'),
 	pipe = new net.Socket({ fd: 3 }),
-	data = '',
+	json = '',
 	EOF = '---',
 	EOFLEN = EOF.length;
 
@@ -10,14 +10,15 @@ pipe.on('data', function(buffer) {
 
     var len = buffer.length;
 	if (b.endsWith(EOF)) {
-		data += b.substring(0, len - EOFLEN);
+		json += b.substring(0, len - EOFLEN);
 		pipe.end();
 	} else {
-		data += b;
+		json += b;
 	}
 });
 
 pipe.on('end', function() {
+	var data = JSON.parse(json);
 	console.log('[consumer] data: ' + data);
 	console.log('[consumer] pipe closing');
 });
